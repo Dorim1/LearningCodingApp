@@ -11,6 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
+        android:contentDescription="close image button"
         android:src="@drawable/ic_close"
         android:layout_marginTop="10dp"
         android:layout_marginStart="24dp"
@@ -24,12 +25,14 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="86dp"
         android:layout_marginHorizontal="33dp"
+        android:fontFamily="@font/nunito_bold"
         android:text="Galaxy"
         android:textSize="50sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageButton"
-        tools:text="Galaxy" />
+        tools:text="Galaxy"
+        tools:ignore="HardcodedText" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -62,7 +65,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="Сломать" />
+                android:fontFamily="@font/rubik_regular"
+                android:text="Сломать"
+                tools:ignore="HardcodedText" />
 
         </LinearLayout>
 
@@ -88,7 +93,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="Сон" />
+                android:fontFamily="@font/rubik_regular"
+                android:text="Сон"
+                tools:ignore="HardcodedText" />
 
         </LinearLayout>
 
@@ -114,7 +121,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="Галактика" />
+                android:fontFamily="@font/rubik_regular"
+                android:text="Галактика"
+                tools:ignore="HardcodedText" />
 
         </LinearLayout>
 
@@ -140,7 +149,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="Утюг" />
+                android:fontFamily="@font/rubik_regular"
+                android:text="Утюг"
+                tools:ignore="HardcodedText" />
 
         </LinearLayout>
 
@@ -150,7 +161,8 @@
         android:layout_width="310dp"
         android:layout_height="58dp"
         android:backgroundTint="#2574FF"
-        android:text="Skip"
+        android:text="@string/button_skip"
+        android:fontFamily="@font/nunito_bold"
         android:textAllCaps="true"
         android:layout_marginBottom="24dp"
         android:visibility="gone"
@@ -173,6 +185,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="36dp"
             android:layout_marginTop="18dp"
+            android:contentDescription="correct answer icon"
             android:src="@drawable/ic_correct"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -180,7 +193,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Correct!"
+            android:text="@string/title_correct"
+            android:fontFamily="@font/rubik_regular"
             android:textColor="@color/white"
             android:textSize="22sp"
             android:layout_marginStart="8dp"
@@ -196,7 +210,8 @@
             android:textColor="#0EAD69"
             android:backgroundTint="@color/white"
             android:background="@drawable/shape_button_footer"
-            android:text="Continue"
+            android:text="@string/button_continue"
+            android:fontFamily="@font/nunito_bold"
             android:textAllCaps="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
