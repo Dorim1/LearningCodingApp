@@ -160,7 +160,7 @@
     <Button
         android:layout_width="310dp"
         android:layout_height="58dp"
-        android:backgroundTint="#2574FF"
+        android:backgroundTint="@color/buttonBlueColor"
         android:text="@string/button_skip"
         android:fontFamily="@font/nunito_bold"
         android:textAllCaps="true"
