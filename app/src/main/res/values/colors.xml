@@ -6,4 +6,7 @@
     <color name="buttonBlueColor">#2574FF</color>
     <!--    <color name="buttonBlueColor">#888992</color>-->
     <color name="correctVariantsColor">#0EAD69</color>
+    <color name="correctAnswerColor">#0EAD69</color>
+    <color name="wrongVariantsColor">#FA4169</color>
+    <color name="wrongAnswerColor">#FA4169</color>
 </resources>
