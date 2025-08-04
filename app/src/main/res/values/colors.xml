@@ -5,4 +5,5 @@
     <color name="textVariantsColor">#888992</color>
     <color name="buttonBlueColor">#2574FF</color>
     <!--    <color name="buttonBlueColor">#888992</color>-->
+    <color name="correctVariantsColor">#0EAD69</color>
 </resources>
