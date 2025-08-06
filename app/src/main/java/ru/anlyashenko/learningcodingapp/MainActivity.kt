@@ -2,6 +2,7 @@ package ru.anlyashenko.learningcodingapp
 
 import android.graphics.Color
 import android.os.Bundle
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -15,162 +16,205 @@ class MainActivity : AppCompatActivity() {
 
     private var _binding: ActivityLearnWordBinding? = null
     private val binding
-        get() = _binding ?: throw IllegalStateException("Binding for ActivityLearnWordBinding must not be null")
+        get() = _binding
+            ?: throw IllegalStateException("Binding for ActivityLearnWordBinding must not be null")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityLearnWordBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.layoutAnswer3.setOnClickListener {
-            markAnswerCorrect()
-        }
-
-        binding.layoutAnswer1.setOnClickListener{
-            markAnswerWrong()
-        }
-
-        binding.bntContinue.setOnClickListener {
-            markAnswerNeutral()
-        }
-
-
-    }
-
-    private fun markAnswerNeutral() {
+        val trainer = LearnWordsTrainer()
+        showNextQuestion(trainer)
 
         with(binding) {
-
-            for (layout in listOf(layoutAnswer1, layoutAnswer3)) {
-                layout.background = ContextCompat.getDrawable(
-                    this@MainActivity,
-                    R.drawable.shape_rounded_containers
-                )
+            btnContinue.setOnClickListener {
+                layoutResult.isVisible = false
+                markAnswerNeutral(layoutAnswer1, tvVariantValue1, tvVariantNumber1)
+                markAnswerNeutral(layoutAnswer2, tvVariantValue2, tvVariantNumber2)
+                markAnswerNeutral(layoutAnswer3, tvVariantValue3, tvVariantNumber3)
+                markAnswerNeutral(layoutAnswer4, tvVariantValue4, tvVariantNumber4)
+                showNextQuestion(trainer)
             }
 
-            for (textView in listOf(tvVariantValue1, tvVariantValue3)) {
-                textView.setTextColor(
-                    ContextCompat.getColor(
-                        this@MainActivity,
-                        R.color.textVariantsColor
-                    )
-                )
+            btnSkip.setOnClickListener {
+                showNextQuestion(trainer)
             }
-
-            for (textView in listOf(tvVariantNumber1, tvVariantNumber3)) {
-                textView.apply {
-                    background = ContextCompat.getDrawable(
-                        this@MainActivity,
-                        R.drawable.shape_rounded_variants
-                    )
-                    setTextColor(
-                        ContextCompat.getColor(
-                        this@MainActivity,
-                        R.color.textVariantsColor
-                        )
-                    )
-                }
-            }
-
-            layoutResult.isVisible = false
-            bntSkip.isVisible = true
-
         }
+
+
 
     }
 
-    private fun markAnswerWrong() {
-        binding.layoutAnswer1.background = ContextCompat.getDrawable(
+    private fun showNextQuestion(trainer: LearnWordsTrainer) {
+        val firstQuestion: Question? = trainer.getNextQuestion()
+        with(binding) {
+            if (firstQuestion == null || firstQuestion.variants.size < NUMBER_OF_ANSWER) {
+                tvQuestionWord.isVisible = false
+                layoutVariants.isVisible = false
+                btnSkip.text = "Completed!"
+            } else {
+                btnSkip.isVisible = true
+                tvQuestionWord.isVisible = true
+                tvQuestionWord.text = firstQuestion.correctAnswer.original
+
+                tvVariantValue1.text = firstQuestion.variants[0].translate
+                tvVariantValue2.text = firstQuestion.variants[1].translate
+                tvVariantValue3.text = firstQuestion.variants[2].translate
+                tvVariantValue4.text = firstQuestion.variants[3].translate
+
+                layoutAnswer1.setOnClickListener{
+                    if (trainer.checkAnswer(0)) {
+                        markAnswerCorrect(layoutAnswer1, tvVariantValue1, tvVariantNumber1)
+                        showResultMessage(true)
+                    } else {
+                        markAnswerWrong(layoutAnswer1, tvVariantValue1, tvVariantNumber1)
+                        showResultMessage(false)
+                    }
+                }
+
+                layoutAnswer2.setOnClickListener{
+                    if (trainer.checkAnswer(1)) {
+                        markAnswerCorrect(layoutAnswer2, tvVariantValue2, tvVariantNumber2)
+                        showResultMessage(true)
+                    } else {
+                        markAnswerWrong(layoutAnswer2, tvVariantValue2, tvVariantNumber2)
+                        showResultMessage(false)
+                    }
+                }
+
+                layoutAnswer3.setOnClickListener{
+                    if (trainer.checkAnswer(2)) {
+                        markAnswerCorrect(layoutAnswer3, tvVariantValue3, tvVariantNumber3)
+                        showResultMessage(true)
+                    } else {
+                        markAnswerWrong(layoutAnswer3, tvVariantValue3, tvVariantNumber3)
+                        showResultMessage(false)
+                    }
+                }
+
+                layoutAnswer4.setOnClickListener{
+                    if (trainer.checkAnswer(3)) {
+                        markAnswerCorrect(layoutAnswer4, tvVariantValue4, tvVariantNumber4)
+                        showResultMessage(true)
+                    } else {
+                        markAnswerWrong(layoutAnswer4, tvVariantValue4, tvVariantNumber4)
+                        showResultMessage(false)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun markAnswerNeutral(
+        layoutAnswer: LinearLayout,
+        tvVariantNumber: TextView,
+        tvVariantValue: TextView,
+    ) {
+        layoutAnswer.background = ContextCompat.getDrawable(
+            this@MainActivity,
+            R.drawable.shape_rounded_containers
+        )
+
+        tvVariantValue.apply {
+            background = ContextCompat.getDrawable(
+                this@MainActivity,
+                R.drawable.shape_rounded_variants
+            )
+            setTextColor(
+                ContextCompat.getColor(
+                    this@MainActivity,
+                    R.color.textVariantsColor
+                )
+            )
+        }
+
+        tvVariantNumber.setTextColor(
+            ContextCompat.getColor(
+                this@MainActivity,
+                R.color.textVariantsColor
+            )
+        )
+
+    }
+
+
+    private fun markAnswerWrong(
+        layoutAnswer: LinearLayout,
+        tvVariantValue: TextView,
+        tvVariantNumber: TextView,
+    ) {
+        layoutAnswer.background = ContextCompat.getDrawable(
             this@MainActivity,
             R.drawable.shape_rounded_containers_wrong
         )
 
-        binding.tvVariantNumber1.background = ContextCompat.getDrawable(
+        tvVariantNumber.background = ContextCompat.getDrawable(
             this@MainActivity,
             R.drawable.shape_rounded_variants_wrong
         )
 
-        binding.tvVariantNumber1.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.white))
+        tvVariantNumber.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.white))
 
-        binding.tvVariantValue1.setTextColor(
+        tvVariantValue.setTextColor(
             ContextCompat.getColor(
                 this@MainActivity,
-                R.color.wrongVariantsColor)
-        )
-
-        binding.bntSkip.isVisible = false
-
-        binding.layoutResult.setBackgroundColor(
-            ContextCompat.getColor(
-                this@MainActivity,
-                R.color.wrongAnswerColor
+                R.color.wrongVariantsColor
             )
         )
 
-        binding.ivResultIcon.setImageDrawable(
-            ContextCompat.getDrawable(
-                this@MainActivity,
-                R.drawable.ic_wrong
-            )
-        )
-
-        binding.tvResultMessage.text = resources.getString(R.string.title_wrong)
-
-        binding.bntContinue.setTextColor(
-            ContextCompat.getColor(
-                this@MainActivity,
-                R.color.wrongAnswerColor
-            )
-        )
-
-        binding.layoutResult.isVisible = true
     }
 
-    private fun markAnswerCorrect() {
-        binding.layoutAnswer3.background = ContextCompat.getDrawable(
+    private fun markAnswerCorrect(
+        layoutAnswer: LinearLayout,
+        tvVariantValue: TextView,
+        tvVariantNumber: TextView,
+    ) {
+        layoutAnswer.background = ContextCompat.getDrawable(
             this@MainActivity,
             R.drawable.shape_rounded_containers_correct
         )
 
-        binding.tvVariantNumber3.background = ContextCompat.getDrawable(
+        tvVariantNumber.background = ContextCompat.getDrawable(
             this@MainActivity,
             R.drawable.shape_rounded_variants_correct
         )
 
-        binding.tvVariantNumber3.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.white))
+        tvVariantNumber.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.white))
 
-        binding.tvVariantValue3.setTextColor(
+        tvVariantValue.setTextColor(
             ContextCompat.getColor(
                 this@MainActivity,
-                R.color.correctVariantsColor)
-        )
-
-        binding.bntSkip.isVisible = false
-
-        binding.layoutResult.setBackgroundColor(
-            ContextCompat.getColor(
-                this@MainActivity,
-                R.color.correctAnswerColor
+                R.color.correctVariantsColor
             )
         )
 
-        binding.ivResultIcon.setImageDrawable(
-            ContextCompat.getDrawable(
-                this@MainActivity,
-                R.drawable.ic_correct
-            )
-        )
 
-        binding.tvResultMessage.text = resources.getString(R.string.title_correct)
+    }
 
-        binding.bntContinue.setTextColor(
-            ContextCompat.getColor(
-                this@MainActivity,
-                R.color.correctAnswerColor
-            )
-        )
+    private fun showResultMessage(isCorrect: Boolean) {
+        val color: Int
+        val messageText: String
+        val resultIconResource: Int
+        if (isCorrect) {
+            color = ContextCompat.getColor(this@MainActivity, R.color.correctAnswerColor)
+            resultIconResource = R.drawable.ic_correct
+            messageText = "Correct!" // TODO get from string resources
+        } else {
+            color = ContextCompat.getColor(this@MainActivity, R.color.wrongAnswerColor)
+            resultIconResource = R.drawable.ic_wrong
+            messageText = "Wrong!" // TODO get from string resources
+        }
 
-        binding.layoutResult.isVisible = true
+        with(binding) {
+            btnSkip.isVisible = false
+            layoutResult.isVisible = true
+            btnContinue.setTextColor(color)
+            layoutResult.setBackgroundColor(color)
+            tvResultMessage.text = messageText
+            ivResultIcon.setImageResource(resultIconResource)
 
+
+        }
     }
 }
