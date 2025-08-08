@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
         val trainer = LearnWordsTrainer()
         showNextQuestion(trainer)
 
+
         with(binding) {
             btnContinue.setOnClickListener {
                 layoutResult.isVisible = false
@@ -52,7 +53,7 @@ class MainActivity : AppCompatActivity() {
             if (firstQuestion == null || firstQuestion.variants.size < NUMBER_OF_ANSWER) {
                 tvQuestionWord.isVisible = false
                 layoutVariants.isVisible = false
-                btnSkip.text = "Completed!"
+                tvQuestionWord.text = "Completed!"
             } else {
                 btnSkip.isVisible = true
                 tvQuestionWord.isVisible = true
