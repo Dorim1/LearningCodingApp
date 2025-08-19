@@ -1,9 +1,12 @@
 package ru.anlyashenko.learningcodingapp
 
+import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -14,11 +17,27 @@ import ru.anlyashenko.learningcodingapp.databinding.ActivitySecondDemoBinding
 class SecondDemoActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySecondDemoBinding
 
+    private val locationPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                Log.d("SecondDemoActivity", "Разрешение на локацию получено")
+            } else {
+                Log.d("SecondDemoActivity", "Разрешение на локацию отклонено")
+            }
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivitySecondDemoBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        Log.i("!!!", "${this.componentName.shortClassName} Выполняется метод onCreate() ")
+
+        val btnLocation = binding.btnRequestPermission
+        btnLocation.setOnClickListener {
+            locationPermissionLauncher.launch(ACCESS_FINE_LOCATION)
+        }
 
         with(binding) {
             btnOpenFirst.setOnClickListener {
@@ -52,5 +71,34 @@ class SecondDemoActivity : AppCompatActivity() {
             tvNumber.text = number.toString()
             tvWord.text = word?.original
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.i("!!!", "${this.componentName.shortClassName} Выполняется метод onStart() ")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.i("!!!", "${this.componentName.shortClassName} Выполняется метод onResume() ")
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.i("!!!", "${this.componentName.shortClassName} Выполняется метод onPause() ")
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.i("!!!", "${this.componentName.shortClassName} Выполняется метод onStop() ")
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.i("!!!", "${this.componentName.shortClassName} Выполняется метод onDestroy() ")
+
     }
 }
