@@ -30,6 +30,16 @@
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
+  <Button
+      android:id="@+id/btnRequestPermission"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Запросить разрешение на локацию"
+      android:layout_marginTop="15dp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/btnOpenFirst" />
+
   <TextView
       android:id="@+id/tvText"
       android:layout_width="wrap_content"
@@ -40,7 +50,7 @@
       android:textSize="16sp"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/btnOpenFirst" />
+      app:layout_constraintTop_toBottomOf="@+id/btnRequestPermission" />
 
   <TextView
       android:id="@+id/tvNumber"
